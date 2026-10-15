@@ -1,0 +1,142 @@
+[
+ {
+  "id": "longest-word",
+  "title": "Longest word",
+  "preset": true,
+  "problem": "longest_word(words) takes a list of words and returns the longest one.",
+  "instructions": "Find out why the function crashes, fix it, and explain the cause in your own words. Do not rewrite the function from scratch.",
+  "expected": "longest_word([\"cat\", \"horse\", \"ox\"]) returns \"horse\".",
+  "criteria": [
+   "Hypothesis identifies which index values the loop visits",
+   "At least one experiment that traces the loop",
+   "Explanation refers to valid list indexes",
+   "Transfer prediction is justified"
+  ],
+  "code": "def longest_word(words):\n    longest = \"\"\n    for i in range(len(words) + 1):\n        if len(words[i]) > len(longest):\n            longest = words[i]\n    return longest",
+  "tests": [
+   {
+    "call": "longest_word([\"cat\", \"horse\", \"ox\"])",
+    "expect": "\"horse\""
+   },
+   {
+    "call": "longest_word([\"a\"])",
+    "expect": "\"a\""
+   },
+   {
+    "call": "longest_word([\"hi\", \"hey\"])",
+    "expect": "\"hey\""
+   }
+  ],
+  "transfer": {
+   "code": "def last_item(items):\n    return items[len(items)]",
+   "call": "last_item([\"red\", \"green\", \"blue\"])",
+   "question": "What does last_item([\"red\", \"green\", \"blue\"]) do? Why?"
+  }
+ },
+ {
+  "id": "class-average",
+  "title": "Class average",
+  "preset": true,
+  "problem": "average(scores) returns the mean of a list of test scores.",
+  "instructions": "The function runs without errors but gives wrong answers for some lists. Find the cause, fix it with the smallest change you can, and explain what the variables held at each pass of the loop.",
+  "expected": "average([80, 90, 100]) returns 90.",
+  "criteria": [
+   "Hypothesis says what total holds after each pass",
+   "Experiment traces total across iterations",
+   "Explanation refers to when the starting value is assigned",
+   "Reflection names a check for next time"
+  ],
+  "code": "def average(scores):\n    count = 0\n    for score in scores:\n        total = 0\n        total = total + score\n        count += 1\n    return total / count",
+  "tests": [
+   {
+    "call": "average([80, 90, 100])",
+    "expect": "90"
+   },
+   {
+    "call": "average([50])",
+    "expect": "50"
+   },
+   {
+    "call": "average([70, 80])",
+    "expect": "75"
+   }
+  ],
+  "transfer": {
+   "code": "def count_passed(scores):\n    for score in scores:\n        passed = 0\n        if score >= 50:\n            passed += 1\n    return passed",
+   "call": "count_passed([40, 70, 90])",
+   "question": "What does count_passed([40, 70, 90]) return? Is that correct? Which part of your earlier fix applies here?"
+  }
+ },
+ {
+  "id": "study-minutes",
+  "title": "Study minutes",
+  "preset": true,
+  "problem": "total_minutes(entries) adds up study minutes typed into a form. Form fields always give back text.",
+  "instructions": "The function crashes. Find the cause, fix it, and explain the difference between what you expected and what Python did.",
+  "expected": "total_minutes([\"30\", \"45\", \"20\"]) returns 95.",
+  "criteria": [
+   "Hypothesis considers the type of each value",
+   "Experiment checks the type of the values",
+   "Explanation names text vs number",
+   "Transfer prediction is justified"
+  ],
+  "code": "def total_minutes(entries):\n    # entries come from a form, e.g. [\"30\", \"45\", \"20\"]\n    total = 0\n    for entry in entries:\n        total = total + entry\n    return total",
+  "tests": [
+   {
+    "call": "total_minutes([\"30\", \"45\", \"20\"])",
+    "expect": "95"
+   },
+   {
+    "call": "total_minutes([])",
+    "expect": "0"
+   },
+   {
+    "call": "total_minutes([\"5\"])",
+    "expect": "5"
+   }
+  ],
+  "transfer": {
+   "code": "def average_age(ages):\n    # ages come from a form, e.g. [\"18\", \"20\", \"22\"]\n    total = 0\n    for age in ages:\n        total += age\n    return total / len(ages)",
+   "call": "average_age([\"18\", \"20\", \"22\"])",
+   "question": "What happens when you call average_age([\"18\", \"20\", \"22\"])? Which fix from before applies?"
+  }
+ },
+ {
+  "id": "has-negative",
+  "title": "Has a negative number",
+  "preset": true,
+  "problem": "has_negative(numbers) returns True if any number in the list is below zero, otherwise False.",
+  "instructions": "The function gives the wrong answer for some lists, and no error appears. Find out why, fix it, and explain what happens after the first item.",
+  "expected": "has_negative([3, -1, 4]) returns True; has_negative([]) returns False.",
+  "criteria": [
+   "Hypothesis says how many items the loop looks at",
+   "Experiment uses a list where the negative is not first",
+   "Explanation says what return does to the whole function",
+   "Reflection names a check for next time"
+  ],
+  "code": "def has_negative(numbers):\n    for n in numbers:\n        if n < 0:\n            return True\n        else:\n            return False",
+  "tests": [
+   {
+    "call": "has_negative([3, -1, 4])",
+    "expect": "True"
+   },
+   {
+    "call": "has_negative([-2, 5])",
+    "expect": "True"
+   },
+   {
+    "call": "has_negative([1, 2, 3])",
+    "expect": "False"
+   },
+   {
+    "call": "has_negative([])",
+    "expect": "False"
+   }
+  ],
+  "transfer": {
+   "code": "def all_positive(numbers):\n    for n in numbers:\n        if n > 0:\n            return True\n    return False",
+   "call": "all_positive([5, -3, 2])",
+   "question": "What does all_positive([5, -3, 2]) return? Is that right, and which rule about return applies?"
+  }
+ }
+]
