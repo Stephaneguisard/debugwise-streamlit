@@ -1,0 +1,282 @@
+[
+ {
+  "id": "ex1",
+  "example": true,
+  "student": "Example student A",
+  "taskTitle": "Longest word",
+  "sharedAt": 1791812774314,
+  "code": "def longest_word(words):\n    longest = \"\"\n    for i in range(len(words) + 1):\n        if len(words[i]) > len(longest):\n            longest = words[i]\n    return longest",
+  "progress": {
+   "startedAt": 1791811274314,
+   "hypotheses": [
+    {
+     "text": "I think words[i] does not exist at some point because the error says list index out of range.",
+     "at": 1791811364314
+    },
+    {
+     "text": "I think the loop runs one time too many because range(len(words) + 1) makes i reach 3 when there are only 3 words, and words[3] does not exist.",
+     "at": 1791811794314
+    }
+   ],
+   "experiments": [
+    {
+     "call": "longest_word([\"cat\"])",
+     "target": "orig",
+     "expect": "\"cat\"",
+     "result": "IndexError: list index out of range",
+     "note": "Even one word crashes, so it is not about which word is longest.",
+     "at": 1791811474314
+    },
+    {
+     "call": "longest_word([\"cat\", \"horse\", \"ox\"])",
+     "target": "rev",
+     "expect": "prints 0,1,2",
+     "result": "\"horse\"",
+     "note": "With print(i) I saw i reached 3 and words[3] failed right after.",
+     "at": 1791811754314
+    }
+   ],
+   "hints": [
+    {
+     "level": 1,
+     "at": 1791811534314,
+     "payload": {
+      "source": "engine",
+      "category": "Off-by-one / index out of range",
+      "support": "If words has 3 items, which values does i take in the loop?",
+      "confidence": 0.92
+     }
+    }
+   ],
+   "asks": [],
+   "tests": [
+    {
+     "pass": true
+    },
+    {
+     "pass": true
+    },
+    {
+     "pass": true
+    }
+   ],
+   "explanation": "The loop used len(words) + 1 so i reached len(words), which is one past the last index. words[3] does not exist so Python raised IndexError.",
+   "transfer": {
+    "prediction": "It raises IndexError because items[len(items)] is one past the end.",
+    "matched": "yes",
+    "why": "The last valid index is len - 1."
+   },
+   "ref": {
+    "a": "I first thought the comparison was wrong, the print showed the index went too far.",
+    "b": "Only level 1. I think I could have found it with print alone.",
+    "c": "Check the loop bounds against the last valid index."
+   },
+   "flags": [],
+   "diagnosis": {
+    "category": "Off-by-one / index out of range",
+    "confidence": 0.92
+   }
+  }
+ },
+ {
+  "id": "ex2",
+  "example": true,
+  "student": "Example student B",
+  "taskTitle": "Study minutes",
+  "sharedAt": 1791898074314,
+  "code": "def total_minutes(entries):\n    # entries come from a form, e.g. [\"30\", \"45\", \"20\"]\n    total = 0\n    for entry in entries:\n        total = total + entry\n    return total",
+  "progress": {
+   "startedAt": 1791897674314,
+   "hypotheses": [
+    {
+     "text": "I think the loop is wrong because the program crashes and I do not know why it happens here.",
+     "at": 1791897714314
+    },
+    {
+     "text": "Maybe the for loop does not work and something is going wrong with the total variable here.",
+     "at": 1791897749314
+    },
+    {
+     "text": "I think the loop is wrong and total is not being added properly in the loop each time it runs.",
+     "at": 1791897784314
+    }
+   ],
+   "experiments": [
+    {
+     "call": "total_minutes([\"30\"])",
+     "target": "orig",
+     "expect": "30",
+     "result": "TypeError: unsupported operand type(s) for +: 'int' and 'str'",
+     "note": "it is wrong still the same error",
+     "at": 1791897724314
+    },
+    {
+     "call": "total_minutes([\"1\"])",
+     "target": "orig",
+     "expect": "1",
+     "result": "TypeError: unsupported operand type(s) for +: 'int' and 'str'",
+     "note": "still wrong error for one item",
+     "at": 1791897759314
+    },
+    {
+     "call": "total_minutes([\"1\",\"2\"])",
+     "target": "orig",
+     "expect": "3",
+     "result": "TypeError: unsupported operand type(s) for +: 'int' and 'str'",
+     "note": "wrong again not adding numbers",
+     "at": 1791897789314
+    }
+   ],
+   "hints": [
+    {
+     "level": 1,
+     "at": 1791897734314,
+     "payload": {
+      "source": "engine",
+      "category": "Type mismatch in an operation",
+      "support": "What is the type of each value in the operation on line 5?",
+      "confidence": 0.88
+     }
+    },
+    {
+     "level": 2,
+     "at": 1791897769314,
+     "payload": {
+      "source": "engine",
+      "support": "Try type(...) on both sides of the operation.",
+      "confidence": 0.88
+     }
+    },
+    {
+     "level": 3,
+     "at": 1791897799314,
+     "payload": {
+      "source": "engine",
+      "fix_lines": "Line 5 -> total = total + int(entry)",
+      "confidence": 0.88,
+      "hypothesis_status": "off_track"
+     }
+    }
+   ],
+   "asks": [],
+   "tests": [
+    {
+     "pass": true
+    },
+    {
+     "pass": true
+    },
+    {
+     "pass": true
+    }
+   ],
+   "explanation": "I added int and it works now.",
+   "transfer": {
+    "prediction": "20",
+    "matched": "no",
+    "why": ""
+   },
+   "ref": {
+    "a": "",
+    "b": "",
+    "c": ""
+   },
+   "flags": [
+    {
+     "type": "rapid",
+     "msg": "Level 2 requested 35 s after level 1.",
+     "at": 0
+    },
+    {
+     "type": "early_fix",
+     "msg": "Reached the fix level 2:05 after starting.",
+     "at": 0
+    },
+    {
+     "type": "off_track_fix",
+     "msg": "Latest hypothesis was off track when the fix was shown; the misconception may persist.",
+     "at": 0
+    },
+    {
+     "type": "thin_expl",
+     "msg": "Shared with an explanation under 15 words.",
+     "at": 0
+    }
+   ],
+   "diagnosis": {
+    "category": "Type mismatch in an operation",
+    "confidence": 0.88
+   }
+  }
+ },
+ {
+  "id": "ex3",
+  "example": true,
+  "student": "Example student C",
+  "taskTitle": "My own code",
+  "sharedAt": 1791984074314,
+  "code": "def score(grades):\n    return sum(grades) * weight(grades)",
+  "progress": {
+   "startedAt": 1791983174314,
+   "hypotheses": [
+    {
+     "text": "I think weight is wrong because the result is not what I expected for these grades.",
+     "at": 1791983274314
+    }
+   ],
+   "experiments": [
+    {
+     "call": "score([1, 2])",
+     "target": "orig",
+     "expect": "3",
+     "result": "NameError: name 'weight' is not defined",
+     "note": "Even a tiny list gives the same error so it is not about the values.",
+     "at": 1791983374314
+    }
+   ],
+   "hints": [
+    {
+     "level": 1,
+     "at": 1791983474314,
+     "payload": {
+      "source": "engine",
+      "category": "Name used before it exists",
+      "support": "On which line is weight first given a value?",
+      "confidence": 0.55
+     }
+    }
+   ],
+   "asks": [],
+   "tests": [
+    {
+     "pass": false
+    },
+    {
+     "pass": false
+    }
+   ],
+   "explanation": "",
+   "transfer": {
+    "prediction": "",
+    "matched": "",
+    "why": ""
+   },
+   "ref": {
+    "a": "",
+    "b": "",
+    "c": ""
+   },
+   "flags": [
+    {
+     "type": "low_conf",
+     "msg": "Diagnosis confidence 55% (Name used before it exists).",
+     "at": 0
+    }
+   ],
+   "diagnosis": {
+    "category": "Name used before it exists",
+    "confidence": 0.55
+   }
+  }
+ }
+]
