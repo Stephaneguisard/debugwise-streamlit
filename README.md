@@ -31,7 +31,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt pytest
 2. Create app → pick this repo, branch `main`, main file `streamlit_app.py`.
 3. Choose an App URL (subdomain) and Deploy. Pushing to `main` redeploys automatically.
 
-Optional: put `ANTHROPIC_API_KEY = "sk-ant-..."` in the app's **Secrets** to give every visitor Claude (billed to you; the sidebar status then reads “app key”). Without it, visitors can paste their own key or use the built-in diagnosis.
+Claude is bring-your-own-key: visitors paste their own Anthropic key in the sidebar, or use the built-in diagnosis. (The app can also read `ANTHROPIC_API_KEY` from Secrets, but see the security note before using that on a public app.)
 
 ## Files
 
@@ -53,4 +53,4 @@ Optional: put `ANTHROPIC_API_KEY = "sk-ant-..."` in the app's **Secrets** to giv
 
 ## Security note
 
-Student code executes on the server. The subprocess has time/CPU/memory/file limits and an empty environment, but it is **not a hardened sandbox**: code can still read container files and open network connections. Fine for classroom demos; for a long-lived public deployment prefer the web version or container-level isolation. Never put secrets in a deployment you do not trust students with, and remember that `ANTHROPIC_API_KEY` in Secrets is reachable only by the app owner, not by student code (the subprocess environment is empty).
+Student code executes on the server. The subprocess has time/CPU/memory/file limits and an empty environment, but it is **not a hardened sandbox**: code can still read container files and open network connections. Fine for classroom demos; for a long-lived public deployment prefer the web version or container-level isolation. Because of that, **do not store an `ANTHROPIC_API_KEY` in Secrets on a public deployment**: student code could try to read files on the server, and I cannot guarantee the key is out of reach. Let visitors use their own key or the built-in diagnosis instead.
